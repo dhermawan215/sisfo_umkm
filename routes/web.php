@@ -24,4 +24,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/perizinan', [AdminPerizinanController::class, 'index'])->name('perizinan');
     Route::get('/perizinan/daftar', [AdminPerizinanController::class, 'daftar'])->name('daftar_perizinan');
     Route::post('/perizinan/simpan', [AdminPerizinanController::class, 'simpan'])->name('simpan_perizinan');
+    Route::get('/perizinan/sukses/{id}', [AdminPerizinanController::class, 'sukses'])->name('sukses');
+    Route::get('/perizinan/detail/{id}', [AdminPerizinanController::class, 'detail'])->name('detail');
+    Route::get('/perizinan/download/{id}', [AdminPerizinanController::class, 'download'])->name('download');
 });

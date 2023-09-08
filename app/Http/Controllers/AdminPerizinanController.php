@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Perizinan;
 use Carbon\Carbon;
+use App\Models\Perizinan;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Illuminate\Http\Request;
+use PDF;
 
 class AdminPerizinanController extends Controller
 {
     public function index()
     {
-        return \view('admin.perizinan.index');
+        $perizinan = Perizinan::all();
+        return \view('admin.perizinan.index', ['data' => $perizinan]);
     }
 
     public function daftar()
@@ -48,6 +51,54 @@ class AdminPerizinanController extends Controller
 
         $simpanData = Perizinan::create($requestAll);
 
-        \dd($simpanData);
+        return \redirect()->route('admin.sukses', \base64_encode($simpanData->id));
+    }
+
+    public function sukses($id)
+    {
+        $id2 = \base64_decode($id);
+
+        $perizinan = Perizinan::findOrFail($id2);
+
+        //menyesuaikan format ke indonesia
+        $dt = Carbon::parse($perizinan->masa_berlaku)->locale('id');
+        $dt->settings(['formatFunction' => 'translatedFormat']);
+        $disahkan = Carbon::parse($perizinan->disahkan_tanggal)->locale('id');
+        $disahkan->settings(['formatFunction' => 'translatedFormat']);
+
+        return \view('admin.perizinan.sukses', ['data' => $perizinan, 'dt' => $dt->format('j F Y'), 'disahkan' => $disahkan->format('j F Y')]);
+    }
+
+    // fungsi preview/melihat detail
+    public function detail($id)
+    {
+
+        $id2 = \base64_decode($id);
+
+        $perizinan = Perizinan::findOrFail($id2);
+
+        //menyesuaikan format ke indonesia
+        $dt = Carbon::parse($perizinan->masa_berlaku)->locale('id');
+        $dt->settings(['formatFunction' => 'translatedFormat']);
+        $disahkan = Carbon::parse($perizinan->disahkan_tanggal)->locale('id');
+        $disahkan->settings(['formatFunction' => 'translatedFormat']);
+
+        return \view('admin.perizinan.detail', ['data' => $perizinan, 'dt' => $dt->format('j F Y'), 'disahkan' => $disahkan->format('j F Y')]);
+    }
+
+    public function download($id)
+    {
+        $id2 = \base64_decode($id);
+
+        $perizinan = Perizinan::findOrFail($id2);
+
+        //menyesuaikan format ke indonesia
+        $dt = Carbon::parse($perizinan->masa_berlaku)->locale('id');
+        $dt->settings(['formatFunction' => 'translatedFormat']);
+        $disahkan = Carbon::parse($perizinan->disahkan_tanggal)->locale('id');
+        $disahkan->settings(['formatFunction' => 'translatedFormat']);
+
+
+        return \view('admin.perizinan.print', ['data' => $perizinan, 'dt' => $dt->format('j F Y'), 'disahkan' => $disahkan->format('j F Y')]);
     }
 }
