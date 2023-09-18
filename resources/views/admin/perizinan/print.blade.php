@@ -30,7 +30,7 @@
             /* background-color: white; */
             margin: 0;
             padding: 0;
-            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-family: 'Times New Roman', Times, serif;
 
         }
 

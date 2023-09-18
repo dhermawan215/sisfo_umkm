@@ -19,6 +19,7 @@
     <link href="{{ asset('be/static/css/app2.css') }}" rel="stylesheet">
     <link href="{{ asset('datatable/DataTables-1.13.2/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
     <!-- <link href="{{ asset('datatable/Responsive-2.4.0/css/responsive.bootstrap.min.css') }}" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
