@@ -12,12 +12,18 @@
                 </a>
 
                 <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-                    <img src="{{ asset('asset/images/user.png') }}" class="avatar img-fluid rounded me-1" alt="Charles Hall" /> <span class="text-dark">Charles Hall</span>
+                    <img src="{{ asset('asset/images/user.png') }}" class="avatar img-fluid rounded me-1"
+                        alt="Charles Hall" /> <span class="text-dark">{{ Auth::user()->name }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
-
+                    <a href="{{ route('change_password') }}" class="dropdown-item">Change Password</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Log out</a>
+                    <form action="{{ route('logout') }}" method="post">
+                        @csrf
+                        <button type="submit" class="dropdown-item text-danger"><i class="bi bi-box-arrow-right"></i>
+                            Logout</button>
+                    </form>
+
                 </div>
             </li>
         </ul>

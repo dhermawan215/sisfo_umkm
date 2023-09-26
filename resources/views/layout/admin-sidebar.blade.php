@@ -20,11 +20,14 @@
                     <i class="align-middle" data-feather="check-square"></i> <span class="align-middle">Perizinan</span>
                 </a>
             </li>
-            <li class="sidebar-item {{ request()->is('admin/user-management*') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('admin.user_management') }}">
-                    <i class="align-middle" data-feather="user"></i> <span class="align-middle">User Management</span>
-                </a>
-            </li>
+            @if (Auth::user()->roles == 'admin')
+                <li class="sidebar-item {{ request()->is('admin/user-management*') ? 'active' : '' }}">
+                    <a class="sidebar-link" href="{{ route('admin.user_management') }}">
+                        <i class="align-middle" data-feather="user"></i> <span class="align-middle">User
+                            Management</span>
+                    </a>
+                </li>
+            @endif
         </ul>
 
     </div>

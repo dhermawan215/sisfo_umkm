@@ -45,18 +45,34 @@
 
                         <div class="card mt-2">
                             <div class="card-body ">
+                                @if (session()->has('loginError'))
+                                    <div class="mb-2">
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <strong>{{ session('loginError') }}</strong>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                        </div>
+                                    </div>
+                                @endif
                                 <div class="m-sm-4">
-                                    <form action="#" method="post">
+                                    <form action="{{ route('authenticate') }}" method="post">
                                         @csrf
                                         <div class="mb-3">
                                             <label class="form-label">Email</label>
-                                            <input class="form-control form-control-lg" type="email" name="email"
-                                                placeholder="Enter your email" />
+                                            <input
+                                                class="form-control form-control-lg @error('email') is-invalid @enderror"
+                                                type="email" name="email" placeholder="Enter your email"
+                                                value="{{ old('email') }}" required />
+                                            @error('email')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Password</label>
                                             <input class="form-control form-control-lg" type="password" name="password"
-                                                placeholder="Enter your password" />
+                                                placeholder="Enter your password" required />
                                         </div>
 
                                         <div class="text-center mt-3">

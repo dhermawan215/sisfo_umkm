@@ -22,9 +22,17 @@ Route::get('/', function () {
 });
 
 // auth route
-Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/login', [AuthController::class, 'login'])->name('login')->middleware('guest');
+Route::post('/login', [AuthController::class, 'authenticate'])->name('authenticate');
+Route::prefix('auth')->middleware('auth')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/change-password', [AuthController::class, 'changePassword'])->name('change_password');
+    Route::post('/change-password', [AuthController::class, 'updatePassword'])->name('update_password');
+});
 
-Route::prefix('admin')->name('admin.')->group(function () {
+
+// route admin
+Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::get('/', [AdminDashboard::class, 'index'])->name('dashboard');
     // perizinan route
     Route::get('/perizinan', [AdminPerizinanController::class, 'index'])->name('perizinan');
@@ -34,9 +42,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/perizinan/detail/{id}', [AdminPerizinanController::class, 'detail'])->name('detail');
     Route::get('/perizinan/download/{id}', [AdminPerizinanController::class, 'download'])->name('download');
 
-    // user management
-    Route::get('/user-management', [AdminUserController::class, 'index'])->name('user_management');
-    Route::get('/user-management/register', [AdminUserController::class, 'daftar'])->name('user_register');
-    Route::post('/user-management', [AdminUserController::class, 'store'])->name('user_store');
-    Route::delete('/user-management/{user}', [AdminUserController::class, 'deleteUser'])->name('delete_user');
+    // route admin user management
+    Route::middleware('isAdmin')->group(function () {
+        Route::get('/user-management', [AdminUserController::class, 'index'])->name('user_management');
+        Route::get('/user-management/register', [AdminUserController::class, 'daftar'])->name('user_register');
+        Route::post('/user-management', [AdminUserController::class, 'store'])->name('user_store');
+        Route::delete('/user-management/{user}', [AdminUserController::class, 'deleteUser'])->name('delete_user');
+    });
 });
